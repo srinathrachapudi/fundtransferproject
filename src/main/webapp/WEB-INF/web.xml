@@ -34,11 +34,11 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>AccountVerificationResponseServlet</servlet-name>
-    <servlet-class>com.visa. AccountVerificationResponseServlet</servlet-class>
+    <servlet-class>com.visa.AccountVerificationResponseServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AccountVerificationResponseServlet</servlet-name>
-    <url-pattern>/ AccountVerificationResponseServlet/*</url-pattern>
+    <url-pattern>/AccountVerificationResponseServlet/*</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>AccountlookuprequestServlet</servlet-name>
@@ -47,5 +47,61 @@
   <servlet-mapping>
     <servlet-name>AccountlookuprequestServlet</servlet-name>
     <url-pattern>/AccountlookuprequestServlet/*</url-pattern>
+  </servlet-mapping>  
+  <servlet>
+    <servlet-name>AdminConsoleReadServlet</servlet-name>
+    <servlet-class>com.visa.AdminConsoleReadServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminConsoleReadServlet</servlet-name>
+    <url-pattern>/AdminConsoleReadServlet/*</url-pattern>
+  </servlet-mapping>  
+  <servlet>
+    <servlet-name>AdminConsoleServlet</servlet-name>
+    <servlet-class>com.visa.AdminConsoleServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminConsoleServlet</servlet-name>
+    <url-pattern>/AdminConsoleServlet/*</url-pattern>
+  </servlet-mapping>  
+   <servlet>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>com.visa.LoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/LoginServlet/*</url-pattern>
+  </servlet-mapping>  
+  <servlet>
+    <servlet-name>AdminResetServlet</servlet-name>
+    <servlet-class>com.visa.AdminResetServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminResetServlet</servlet-name>
+    <url-pattern>/AdminResetServlet/*</url-pattern>
+  </servlet-mapping>  
+  <servlet>
+    <servlet-name>DefaultTransferServlet</servlet-name>
+    <servlet-class>com.visa.DefaultTransferServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DefaultTransferServlet</servlet-name>
+    <url-pattern>/DefaultTransferServlet/*</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <servlet-name>AFTrequestServlet</servlet-name>
+    <servlet-class>com.visa.AFTrequestServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AFTrequestServlet</servlet-name>
+    <url-pattern>/AFTrequestServlet/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>AFTresponseServlet</servlet-name>
+    <servlet-class>com.visa.AFTresponseServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AFTresponseServlet</servlet-name>
+    <url-pattern>/AFTresponseServlet/*</url-pattern>
   </servlet-mapping>
 </web-app>

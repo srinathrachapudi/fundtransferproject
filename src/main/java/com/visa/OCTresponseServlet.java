@@ -1,33 +1,19 @@
 package com.visa;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.json.JSONException;
-import org.json.JSONObject;
- 
-
-
-
-
-
-
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.security.SignatureException;
 
 import javax.servlet.ServletException;
- 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import org.json.JSONObject;
 
 import com.vdp.Algorithm;
-
 import com.vdp.util.VdpUtility;
 import com.visa.config.ConfigValues;
-
  
 /**
   * Servlet implementation class ActionServlet
@@ -98,7 +84,7 @@ public class OCTresponseServlet extends HttpServlet {
 	 
 	 NetClientPost client = new NetClientPost();
 	 newpayload = jsonObject.toString();	
-	 endpoint = (String)new ConfigValues().getPropValues().get("urlOCT") + "?apikey=" + (String)new ConfigValues().getPropValues().get("apiKey");
+	 endpoint = (String)new ConfigValues().getPropValues().get("urlOCT") + "?apikey=" + apiKey;
 	 token = new Algorithm().generateXpaytoken(newpayload, (String)new ConfigValues().getPropValues().get("pathOCT"), apiKey, sharedSecret);	
 	 
 	 res = client.getResponse(newpayload,endpoint, token);

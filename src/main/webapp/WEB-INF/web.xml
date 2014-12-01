@@ -7,7 +7,7 @@
   <description>
         This is a simple web application with a source code organization
         based on the recommendations of the Application Developer's Guide.
-    </description>
+    </description>   
   <servlet>
     <servlet-name>OCTresponseServlet</servlet-name>
     <servlet-class>com.visa.OCTresponseServlet</servlet-class>
@@ -34,7 +34,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>AccountVerificationResponseServlet</servlet-name>
-    <servlet-class>com.visa.AccountVerificationResponseServlet</servlet-class>
+    <servlet-class>com.visa. AccountVerificationResponseServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AccountVerificationResponseServlet</servlet-name>

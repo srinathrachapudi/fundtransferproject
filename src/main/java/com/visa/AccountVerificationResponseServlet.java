@@ -78,12 +78,14 @@ public class AccountVerificationResponseServlet extends HttpServlet {
 		
 			NetClientPost client = new NetClientPost();
 		    newpayload = jsonObject.toString();
-		    endpoint = (String)new ConfigValues().getPropValues().get("urlACNV") + "?apikey=" + (String)new ConfigValues().getPropValues().get("apiKey");
+		    endpoint = (String)new ConfigValues().getPropValues().get("urlACNV") + "?apikey=" + apiKey;
 		    pathACNV = (String)new ConfigValues().getPropValues().get("pathACNV");
 		    token = new Algorithm().generateXpaytoken(newpayload, pathACNV, apiKey, sharedSecret);
 		    res = client.getResponse(newpayload,
 					endpoint,token);
-			if(res!=null)
+			
+		    
+		    if(res!=null && res.contains("TransactionIdentifier"))
 			{
 				HttpSession session11 = request.getSession();
 				session11.setAttribute("senderPAN", request.getParameter("accNo"));
@@ -100,6 +102,8 @@ public class AccountVerificationResponseServlet extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			outputJson.put("response",res);
 			outputJson.put("token",token);
+			outputJson.put("apiKey",apiKey);
+			outputJson.put("sharedSecret",sharedSecret);
 			response.setContentType("application/json");
 			out.print(outputJson);
 			

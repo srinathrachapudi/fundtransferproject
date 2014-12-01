@@ -1,30 +1,30 @@
 package com.visa;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.vdp.util.VdpUtility;
 import com.visa.config.ConfigValues;
-
 /**
- * Servlet implementation class AccountlookuprequestServlet
+ * Servlet implementation class AdminConsoleServlet
  */
-@WebServlet("/AccountlookuprequestServlet")
-public class AccountlookuprequestServlet extends HttpServlet {
+@WebServlet("/AdminConsoleReadServlet")
+public class AdminConsoleReadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AccountlookuprequestServlet() {
+    public AdminConsoleReadServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,31 +35,48 @@ public class AccountlookuprequestServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		String recipientCardNumber = request.getParameter("recipientCardNumber");
-		String payload = (String)new ConfigValues().getPropValues().get("payloadACNL");
-		String token="";
-		String jsonRequest="";
-		JSONObject jsonObject;
-		
-		try {
-			jsonObject = new JSONObject(payload);			
-			jsonObject.put("PrimaryAccountNumber", request.getParameter("recipientCardNumber"));
-			jsonRequest= VdpUtility.convertToPrettyJsonstring(jsonObject.toString());    
-		
+	HttpSession session = request.getSession();
+		String apiKey= (String)session.getAttribute("apiKey");
+	String sharedSecret = (String)session.getAttribute("sharedSecret");
+	
+	if(apiKey==null ||sharedSecret==null ){
+			
+		 apiKey = (String)new ConfigValues().getPropValues().get("apiKey");
+	 sharedSecret = (String)new ConfigValues().getPropValues().get("sharedSecret");
+	 
 		}
 	
-		catch (JSONException e) {
+		//System.out.println("apiKey: "+ apiKey + "  sharedSecret: "+ sharedSecret );
+	
+		
+			
+			
+		
+		
+		JSONObject outputJson=new JSONObject();
+	PrintWriter out = response.getWriter();
+		try {
+			outputJson.put("apiKey",apiKey);
+			outputJson.put("sharedSecret",sharedSecret);
+			response.setContentType("application/json");
+			out.print(outputJson);
+		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
-		response.getWriter().write(jsonRequest);
-			
+		}
+		
+		
 	}
+			
+						 
+	
+	
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-}
-	
+		// TODO Auto-generated method stub
+	}
+
 }

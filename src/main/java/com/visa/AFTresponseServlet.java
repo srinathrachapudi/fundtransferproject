@@ -2,8 +2,6 @@ package com.visa;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
-import java.security.SignatureException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,14 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONObject;
 
 import com.vdp.Algorithm;
-
 import com.vdp.util.VdpUtility;
 import com.visa.config.ConfigValues;
-
 
 
 /**
@@ -91,7 +86,7 @@ public class AFTresponseServlet extends HttpServlet {
 			}
 			 NetClientPost client = new NetClientPost();
 			 newpayload = jsonObject.toString();
-			 endpoint = (String)new ConfigValues().getPropValues().get("urlAFT") + "?apikey=" + (String)new ConfigValues().getPropValues().get("apiKey");
+			 endpoint = (String)new ConfigValues().getPropValues().get("urlAFT") + "?apikey=" + apiKey;
 			 token = new Algorithm().generateXpaytoken(newpayload, (String)new ConfigValues().getPropValues().get("pathAFT"), apiKey, sharedSecret);
 			 res = client.getResponse(newpayload, endpoint,token);
 					 
@@ -107,6 +102,8 @@ public class AFTresponseServlet extends HttpServlet {
 				PrintWriter out = response.getWriter();
 				outputJson.put("response",res);
 				outputJson.put("token",token);
+				outputJson.put("apiKey",apiKey);
+				outputJson.put("sharedSecret",sharedSecret);
 				response.setContentType("application/json");
 				out.print(outputJson);
 			

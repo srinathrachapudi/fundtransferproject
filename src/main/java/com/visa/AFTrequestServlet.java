@@ -1,7 +1,6 @@
 package com.visa;
 
 import java.io.IOException;
-import java.security.SignatureException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,18 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-
-
-import com.vdp.Algorithm;
-
 import com.vdp.util.VdpUtility;
 import com.visa.config.ConfigValues;
-
 
 /**
  * Servlet implementation class AFTrequestServlet

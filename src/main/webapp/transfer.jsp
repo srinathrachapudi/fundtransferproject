@@ -103,7 +103,7 @@
 					
 					<table border="0" align="center" width="45%" style="border: 1px solid grey; ">		
 							<tr><td align="left" style="font-size: 10pt;font-family:Source Code Pro" width="35%" >&nbsp;&nbsp;&nbsp; Sender's A/c Number:<font color="red">*</font></td>
-							<td align="left"><input type="text" name="accNo" id="accNo" disabled value="<%=session.getAttribute( "senderPAN" )==null?"":session.getAttribute( "senderPAN" )%>"></input>
+							<td align="left"><input type="text" name="accNo" id="accNo" disabled></input>
 							
 							<input type="button" value="Update" id="update" size="3"
 									style="font-size: 10px;background-color: #011f4b; color: white; height: 25px; width: 50px; cursor: pointer;"
@@ -112,7 +112,7 @@
 							</tr>
 							<tr><td align="left" style="font-size: 10pt;font-family:Source Code Pro" width="35%" >&nbsp;&nbsp;&nbsp; Receiver's A/c Number:<font color="red">*</font></td>
 							<td align="left">
-							<input type="text" name="recipientCardNumber" id="recipientCardNumber" disabled value="<%=session.getAttribute( "recipientPAN" )==null?"":session.getAttribute( "recipientPAN" )%>"></input>
+							<input type="text" name="recipientCardNumber" id="recipientCardNumber" disabled></input>
 							
 							<input type="button" value="Update" id="addRec" size="3"
 									style="font-size: 10px;background-color: #011f4b; color: white; height: 25px; width: 50px; cursor: pointer;"
@@ -124,10 +124,8 @@
 							<div style="text-align: center" />
 								<td align="left" style="font-size: 10pt;font-family:Source Code Pro" width="35%" >&nbsp;&nbsp;&nbsp; Amount: $ <font color="red">*</font></td>
 								<td align="left"><input type="text" name="amount"
-									id="amount" class="money" value="25"
-									type=" number" step="any" size="8" height="20"
-									; style="font-size: 12pt; cursor: pointer;font-family:Source Code Pro"
-									> </input>
+									id="amount" class="money" 
+									type="number" step="any" size="8" height="20" style="font-size: 12pt; cursor: pointer;font-family:Source Code Pro"> </input>
 									<div class="myErrors"></div></td>
 							</tr>
 							<tr>

@@ -63,7 +63,7 @@ public class ConfigValues {
 		result.put("password", prop.getProperty("password"));
 		result.put("senderPAN", prop.getProperty("senderPAN"));
 		result.put("recipientPAN", prop.getProperty("recipientPAN"));
-		
+		result.put("amount", prop.getProperty("amount"));
 		return result;
 	}
 	

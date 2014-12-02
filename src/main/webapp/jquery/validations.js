@@ -1,7 +1,8 @@
 function populateAccNumbers(){ 
 	$.get('DefaultTransferServlet',function(responseJson) { 		
 		document.getElementById("accNo").value=responseJson.senderPAN;
-		document.getElementById("recipientCardNumber").value=responseJson.recipientPAN;				
+		document.getElementById("recipientCardNumber").value=responseJson.recipientPAN;	
+		document.getElementById("amount").value=responseJson.amount;
 	});};
         
 	$(document).ready(function() {	
@@ -168,7 +169,7 @@ function populateAccNumbers(){
 				},
 
 				// on page submit 
-				submitHandler : function() {
+				submitHandler : function() {					
 				//	$( "#next" ).prop( "disabled", false ).css({backgroundColor: "#ecb939", color: "#011f4b"});
 					var recipientCardNumber =$('#recipientCardNumber').val();   	 
 					 	
@@ -252,6 +253,14 @@ function populateAccNumbers(){
 		transferValidator.resetForm();
 		$('#showMsg').hide();
 		document.getElementById("cbxShowHide").disabled=true;
+		var accNo = $('#accNo').val();
+		var recipientCardNumber = $('#recipientCardNumber').val();
+		var amount = $('#amount').val();		
+		$.get('TransferResetServlet',{accNo:accNo,recipientCardNumber:recipientCardNumber,amount:amount}, function(responseText){
+			document.getElementById("accNo").value = responseText.senderPAN;
+			document.getElementById("recipientCardNumber").value = responseText.recipientPAN;
+			document.getElementById("amount").value = responseText.amount;
+		});	 	  
 	});		
 
 	jQuery.validator.addMethod(

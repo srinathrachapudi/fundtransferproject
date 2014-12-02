@@ -64,6 +64,12 @@ public class ConfigValues {
 		result.put("senderPAN", prop.getProperty("senderPAN"));
 		result.put("recipientPAN", prop.getProperty("recipientPAN"));
 		result.put("amount", prop.getProperty("amount"));
+		
+		result.put("hostname", prop.getProperty("hostname"));
+		result.put("hostport", prop.getProperty("hostport"));
+		result.put("proxyusername", prop.getProperty("proxyusername"));
+		result.put("proxypassword", prop.getProperty("proxypassword"));
+		
 		return result;
 	}
 	

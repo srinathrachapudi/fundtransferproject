@@ -1,3 +1,4 @@
+
 package com.visa;
 
 import java.io.IOException;
@@ -20,53 +21,59 @@ import com.visa.config.ConfigValues;
  */
 @WebServlet("/AFTrequestServlet")
 public class AFTrequestServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AFTrequestServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	private static final long	serialVersionUID	= 1L;
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public AFTrequestServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request,
+	        HttpServletResponse response) throws ServletException,
+	        IOException {
 		// TODO Auto-generated method stub
-	
-		String payload= (String)new ConfigValues().getPropValues().get("payloadAFT");
-	    JSONObject jsonObject;
-	    String senderPAN=null;
-	    String jsonRequest="";
+
+		String payload = (String) new ConfigValues().getPropValues()
+		        .get("payloadAFT");
+		JSONObject jsonObject;
+		String senderPAN = null;
+		String jsonRequest = "";
 		try {
-			 jsonObject = new JSONObject(payload);		
-			 jsonObject.put("Amount", request.getParameter("amount"));
-			 
-			 HttpSession session = request.getSession();
-				 senderPAN=(String)session.getAttribute("senderPAN");			
-				if(senderPAN != null){
-					jsonObject.put("SenderPrimaryAccountNumber",senderPAN);
-				}
-			  jsonRequest= VdpUtility.convertToPrettyJsonstring(jsonObject.toString());		  
-			  response.getWriter().write(jsonRequest);
+			jsonObject = new JSONObject(payload);
+			jsonObject.put("Amount", request.getParameter("amount"));
+
+			HttpSession session = request.getSession();
+			senderPAN = (String) session.getAttribute("senderPAN");
+			if (senderPAN != null) {
+				jsonObject.put("SenderPrimaryAccountNumber",
+				        senderPAN);
+			}
+			jsonRequest = VdpUtility
+			        .convertToPrettyJsonstring(jsonObject.toString());
+			response.getWriter().write(jsonRequest);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-	   
-	  }
+	}
+
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+	        HttpServletResponse response) throws ServletException,
+	        IOException {
 		// TODO Auto-generated method stub
-	
-	
-	}
-	
+
 	}
 
-
+}

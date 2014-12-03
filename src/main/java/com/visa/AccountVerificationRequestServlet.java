@@ -1,3 +1,4 @@
+
 package com.visa;
 
 import java.io.IOException;
@@ -20,49 +21,55 @@ import com.visa.config.ConfigValues;
 
 @WebServlet("/AccountVerificationRequestServlet")
 public class AccountVerificationRequestServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AccountVerificationRequestServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	private static final long	serialVersionUID	= 1L;
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public AccountVerificationRequestServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request,
+	        HttpServletResponse response) throws ServletException,
+	        IOException {
 		// TODO Auto-generated method stub
-		
-		
-		String payload = (String)new ConfigValues().getPropValues().get("payloadACNV");
-		String newpayload="";
-		String jsonRequest="";
-	
+
+		String payload = (String) new ConfigValues().getPropValues()
+		        .get("payloadACNV");
+		String newpayload = "";
+		String jsonRequest = "";
+
 		try {
 
 			JSONObject jsonObject = new JSONObject(payload);
-			jsonObject.put("PrimaryAccountNumber", request.getParameter("accNo"));		   
-			jsonRequest= VdpUtility.convertToPrettyJsonstring(jsonObject.toString());    
-	       
+			jsonObject.put("PrimaryAccountNumber",
+			        request.getParameter("accNo"));
+			jsonRequest = VdpUtility
+			        .convertToPrettyJsonstring(jsonObject.toString());
+
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
+
 		response.getWriter().write(jsonRequest);
-		
-		
+
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-	
+	protected void doPost(HttpServletRequest request,
+	        HttpServletResponse response) throws ServletException,
+	        IOException {
+
 	}
 
 }

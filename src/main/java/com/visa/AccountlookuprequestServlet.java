@@ -1,3 +1,4 @@
+
 package com.visa;
 
 import java.io.IOException;
@@ -19,47 +20,58 @@ import com.visa.config.ConfigValues;
  */
 @WebServlet("/AccountlookuprequestServlet")
 public class AccountlookuprequestServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AccountlookuprequestServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	private static final long	serialVersionUID	= 1L;
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public AccountlookuprequestServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request,
+	        HttpServletResponse response) throws ServletException,
+	        IOException {
 		// TODO Auto-generated method stub
-		
-		String recipientCardNumber = request.getParameter("recipientCardNumber");
-		String payload = (String)new ConfigValues().getPropValues().get("payloadACNL");
-		String token="";
-		String jsonRequest="";
+
+		String recipientCardNumber = request
+		        .getParameter("recipientCardNumber");
+		String payload = (String) new ConfigValues().getPropValues()
+		        .get("payloadACNL");
+		String token = "";
+		String jsonRequest = "";
 		JSONObject jsonObject;
-		
+
 		try {
-			jsonObject = new JSONObject(payload);			
-			jsonObject.put("PrimaryAccountNumber", request.getParameter("recipientCardNumber"));
-			jsonRequest= VdpUtility.convertToPrettyJsonstring(jsonObject.toString());    
-		
+			jsonObject = new JSONObject(payload);
+			jsonObject.put("PrimaryAccountNumber",
+			        request.getParameter("recipientCardNumber"));
+			jsonRequest = VdpUtility
+			        .convertToPrettyJsonstring(jsonObject.toString());
+
 		}
-	
+
 		catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
 		response.getWriter().write(jsonRequest);
-			
+
 	}
+
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-}
-	
+	protected void doPost(HttpServletRequest request,
+	        HttpServletResponse response) throws ServletException,
+	        IOException {
+
+	}
+
 }

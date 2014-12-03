@@ -1,3 +1,4 @@
+
 package com.visa;
 
 import java.io.IOException;
@@ -21,113 +22,115 @@ import com.visa.config.ConfigValues;
  */
 @WebServlet("/AccountlookupresponseServlet")
 public class AccountlookupresponseServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AccountlookupresponseServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	private static final long	serialVersionUID	= 1L;
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public AccountlookupresponseServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request,
+	        HttpServletResponse response) throws ServletException,
+	        IOException {
 		// TODO Auto-generated method stub
-	
-		String token="";
-		String payload="";
-		String newpayload="";
-		String endpoint="";
-		String res="";
-		
-		
-		//get apiKey
-				String apiKey = null;
-						
-				HttpSession session = request.getSession();
-				
-				apiKey = (String)session.getAttribute("apiKey");
-				
-				if(apiKey == null){
-					apiKey = (String)new ConfigValues().getPropValues().get("apiKey");
-				}
-				
-				//get sharedSecret
-				String sharedSecret = null;
-				
-				HttpSession session1 = request.getSession();
-				
-				sharedSecret = (String)session1.getAttribute("sharedSecret");
-				
-				if(sharedSecret == null){
-					sharedSecret = (String)new ConfigValues().getPropValues().get("sharedSecret");
-				}
-				
-		
-		
+
+		String token = "";
+		String payload = "";
+		String newpayload = "";
+		String endpoint = "";
+		String res = "";
+
+		// get apiKey
+		String apiKey = null;
+
+		HttpSession session = request.getSession();
+
+		apiKey = (String) session.getAttribute("apiKey");
+
+		if (apiKey == null) {
+			apiKey = (String) new ConfigValues().getPropValues().get(
+			        "apiKey");
+		}
+
+		// get sharedSecret
+		String sharedSecret = null;
+
+		HttpSession session1 = request.getSession();
+
+		sharedSecret = (String) session1.getAttribute("sharedSecret");
+
+		if (sharedSecret == null) {
+			sharedSecret = (String) new ConfigValues()
+			        .getPropValues().get("sharedSecret");
+		}
+
 		try {
-						
-			payload = (String)new ConfigValues().getPropValues().get("payloadACNL");
+
+			payload = (String) new ConfigValues().getPropValues()
+			        .get("payloadACNL");
 			JSONObject jsonObject = new JSONObject(payload);
-			jsonObject.put("PrimaryAccountNumber", request.getParameter("recipientCardNumber"));
-		
+			jsonObject.put("PrimaryAccountNumber",
+			        request.getParameter("recipientCardNumber"));
+
 			NetClientPost client = new NetClientPost();
-		    newpayload = jsonObject.toString(); //pay load After user input			
-			
-			endpoint = (String)new ConfigValues().getPropValues().get("urlACNL") + "?apikey=" + apiKey;
-			token = new Algorithm().generateXpaytoken(newpayload, (String)new ConfigValues().getPropValues().get("pathACNL"), apiKey, sharedSecret );
-			
-			res = client.getResponse(newpayload, endpoint,token);
-					
-			if(res!=null  && res.contains("CardProductTypeCode"))
-			{
+			newpayload = jsonObject.toString(); // pay load After user input
+
+			endpoint = (String) new ConfigValues().getPropValues()
+			        .get("urlACNL") + "?apikey=" + apiKey;
+			token = new Algorithm().generateXpaytoken(
+			        newpayload,
+			        (String) new ConfigValues().getPropValues().get(
+			                "pathACNL"), apiKey, sharedSecret);
+
+			res = client.getResponse(newpayload, endpoint, token);
+
+			if (res != null && res.contains("CardProductTypeCode")) {
 				HttpSession session11 = request.getSession();
-				session11.setAttribute("recipientPAN", request.getParameter("recipientCardNumber"));
+				session11.setAttribute("recipientPAN",
+				        request.getParameter("recipientCardNumber"));
 			}
-			
-			if(res.startsWith("{"))		//To check if response is JSON
-			
-			{	res= VdpUtility.convertToPrettyJsonstring(res); 
-			
-			
-			}			
-			
-			JSONObject outputJson=new JSONObject();
+
+			if (res.startsWith("{"))		// To check if response is JSON
+
+			{
+				res = VdpUtility.convertToPrettyJsonstring(res);
+
+			}
+
+			JSONObject outputJson = new JSONObject();
 			PrintWriter out = response.getWriter();
-			outputJson.put("response",res);
-			outputJson.put("token",token);
-			outputJson.put("apiKey",apiKey);
-			outputJson.put("sharedSecret",sharedSecret);
+			outputJson.put("response", res);
+			outputJson.put("token", token);
+			outputJson.put("apiKey", apiKey);
+			outputJson.put("sharedSecret", sharedSecret);
 			response.setContentType("application/json");
 			out.print(outputJson);
-		
-			
+
+		} catch (IOException e) {
+			e.printStackTrace();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
 		}
-		catch(IOException e)		
-		{
-		e.printStackTrace()	;		 
-			
-		}		
-		catch(Exception e)		
-		{
-			
-			e.printStackTrace()	;
-			 
-		}
-		
 
 	}
-		
-		
-	
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+	        HttpServletResponse response) throws ServletException,
+	        IOException {
 		// TODO Auto-generated method stub
 	}
 

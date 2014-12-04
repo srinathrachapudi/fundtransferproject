@@ -52,6 +52,14 @@
 		<url-pattern>/AccountLookupRequestServlet/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
+		<servlet-name>AccountLookupResponseServlet</servlet-name>
+		<servlet-class>com.fundtransfer.AccountLookupResponseServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AccountLookupResponseServlet</servlet-name>
+		<url-pattern>/AccountLookupResponseServlet/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>AdminConsoleReadServlet</servlet-name>
 		<servlet-class>com.fundtransfer.AdminConsoleReadServlet</servlet-class>
 	</servlet>

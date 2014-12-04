@@ -140,7 +140,7 @@ function populateForm(){
 						$.get('AccountLookupRequestServlet',{recipientCardNumber:recipientCardNumber},function(responseText) {
 							$('#request').html(responseText);
 						});	   	 
-						$.get('AccountLookupRequestServlet',{recipientCardNumber:recipientCardNumber},function(responseText) {
+						$.get('AccountLookupResponseServlet',{recipientCardNumber:recipientCardNumber},function(responseText) {
 							$('#response').html(responseText.response);  
 							$('#requestACTLHeader').html(responseText.token);
 							$('#requestACTLHeader').html(responseText.token); 

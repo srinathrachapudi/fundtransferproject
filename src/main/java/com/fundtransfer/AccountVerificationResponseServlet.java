@@ -51,9 +51,10 @@ public class AccountVerificationResponseServlet extends HttpServlet {
 		String apiKey = null;
 		HttpSession session = request.getSession();
 		// get sharedSecret
-		String sharedSecret = null;		
+		String sharedSecret = null;	
+		System.out.println(apiKey);
 		apiKey = (String) session.getAttribute("apiKey");
-
+		System.out.println(apiKey);
 		if (apiKey == null) {
 			apiKey = (String) new ConfigValues().getPropValues().get(
 			        "apiKey");

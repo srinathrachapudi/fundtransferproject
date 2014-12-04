@@ -44,12 +44,14 @@ public class AccountLookupRequestServlet extends HttpServlet {
 		        .getParameter("recipientCardNumber");
 		String payload = (String) new ConfigValues().getPropValues()
 		        .get("payloadACNL");
+		System.out.println(payload);
 		String token = "";
 		String jsonRequest = "";
 		JSONObject jsonObject;
 
 		try {
 			jsonObject = new JSONObject(payload);
+			System.out.println("test");
 			jsonObject.put("PrimaryAccountNumber",
 			        request.getParameter("recipientCardNumber"));
 			jsonRequest = FundTransferUtility

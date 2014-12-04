@@ -47,9 +47,11 @@ public class AccountLookupResponseServlet extends HttpServlet {
 		String res = "";
 		// get apiKey
 		String apiKey = null;
+		System.out.println(apiKey);
 		HttpSession session = request.getSession();
 		String sharedSecret = null;
 		apiKey = (String) session.getAttribute("apiKey");
+		System.out.println(apiKey);
 		if (apiKey == null) {
 			apiKey = (String) new ConfigValues().getPropValues().get(
 			        "apiKey");

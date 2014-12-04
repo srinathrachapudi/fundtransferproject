@@ -1,4 +1,3 @@
-
 package com.fundtransfer;
 
 import java.io.IOException;
@@ -17,13 +16,12 @@ import org.json.JSONObject;
 import com.fundtransfer.config.ConfigValues;
 
 /**
- * Servlet implementation class AdminResetServlet
- * This class used to reset the admin console window to default
- * Credentials(X-APIKey and SharedSecret)
+ * Servlet implementation class AdminResetServlet This class used to reset the
+ * admin console window to default Credentials(X-APIKey and SharedSecret)
  */
 @WebServlet("/AdminResetServlet")
 public class AdminResetServlet extends HttpServlet {
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -37,32 +35,17 @@ public class AdminResetServlet extends HttpServlet {
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request,
-	        HttpServletResponse response) throws ServletException,
-	        IOException {
+			HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String apiKey = (String) session.getAttribute("apiKey");
-		String sharedSecret = (String) session
-		        .getAttribute("sharedSecret");
+		String sharedSecret = (String) session.getAttribute("sharedSecret");
 		JSONObject outputJson = new JSONObject();
 		PrintWriter out = response.getWriter();
-
-		if (apiKey == null || sharedSecret == null) {
-			apiKey = (String) new ConfigValues().getPropValues().get(
-			        "apiKey");
-			sharedSecret = (String) new ConfigValues()
-			        .getPropValues().get("sharedSecret");
-			session.setAttribute("apiKey", apiKey);
-			session.setAttribute("sharedSecret", sharedSecret);
-		}
-		if (apiKey != null || sharedSecret != null) {
-			apiKey = (String) new ConfigValues().getPropValues().get(
-			        "apiKey");
-			sharedSecret = (String) new ConfigValues()
-			        .getPropValues().get("sharedSecret");
-			session.setAttribute("apiKey", apiKey);
-			session.setAttribute("sharedSecret", sharedSecret);
-		}
-
+		apiKey = (String) new ConfigValues().getPropValues().get("apiKey");
+		sharedSecret = (String) new ConfigValues().getPropValues().get(
+				"sharedSecret");
+		session.setAttribute("apiKey", apiKey);
+		session.setAttribute("sharedSecret", sharedSecret);
 		try {
 			outputJson.put("apiKey", apiKey);
 			outputJson.put("sharedSecret", sharedSecret);
@@ -79,8 +62,7 @@ public class AdminResetServlet extends HttpServlet {
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request,
-	        HttpServletResponse response) throws ServletException,
-	        IOException {
+			HttpServletResponse response) throws ServletException, IOException {
 	}
 
 }

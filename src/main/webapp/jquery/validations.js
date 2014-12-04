@@ -202,6 +202,9 @@ function populateForm(){
 							}else{
 								$messageDiv.show().html('<font color="red" size="2" family="Source Code Pro"><center>Money Transfer Failed.<center></font>');
 								document.getElementById("cbxShowHide").disabled=false;
+								$('#requestOCT').val('');
+								$('#responseOCT').val('');
+								$('#requestOCTHeader').val('');
 							} 
 						});
 					}

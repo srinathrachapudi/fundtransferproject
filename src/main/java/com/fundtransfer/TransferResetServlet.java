@@ -1,4 +1,3 @@
-
 package com.fundtransfer;
 
 import java.io.IOException;
@@ -17,13 +16,12 @@ import org.json.JSONObject;
 import com.fundtransfer.config.ConfigValues;
 
 /**
- * Servlet implementation class TransferResetServlet
- * This class used to provide default values when we select Reset option in
- * transfer page
+ * Servlet implementation class TransferResetServlet This class used to provide
+ * default values when we select Reset option in transfer page
  */
 @WebServlet("/TransferResetServlet")
 public class TransferResetServlet extends HttpServlet {
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -37,40 +35,21 @@ public class TransferResetServlet extends HttpServlet {
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request,
-	        HttpServletResponse response) throws ServletException,
-	        IOException {
+			HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String senderPAN = (String) session.getAttribute("senderPAN");
-		String recipientPAN = (String) session
-		        .getAttribute("recipientPAN");
+		String recipientPAN = (String) session.getAttribute("recipientPAN");
 		String amount = (String) session.getAttribute("amount");
 		JSONObject outputJson = new JSONObject();
 		PrintWriter out = response.getWriter();
-
-		if (senderPAN == null || recipientPAN == null
-		        || amount == null) {
-			senderPAN = (String) new ConfigValues().getPropValues()
-			        .get("senderPAN");
-			recipientPAN = (String) new ConfigValues()
-			        .getPropValues().get("recipientPAN");
-			amount = (String) new ConfigValues().getPropValues().get(
-			        "amount");
-			session.setAttribute("senderPAN", senderPAN);
-			session.setAttribute("recipientPAN", recipientPAN);
-			session.setAttribute("amount", amount);
-		}
-		if (senderPAN != null || recipientPAN != null
-		        || amount != null) {
-			senderPAN = (String) new ConfigValues().getPropValues()
-			        .get("senderPAN");
-			recipientPAN = (String) new ConfigValues()
-			        .getPropValues().get("recipientPAN");
-			amount = (String) new ConfigValues().getPropValues().get(
-			        "amount");
-			session.setAttribute("senderPAN", senderPAN);
-			session.setAttribute("recipientPAN", recipientPAN);
-			session.setAttribute("amount", amount);
-		}
+		senderPAN = (String) new ConfigValues().getPropValues()
+				.get("senderPAN");
+		recipientPAN = (String) new ConfigValues().getPropValues().get(
+				"recipientPAN");
+		amount = (String) new ConfigValues().getPropValues().get("amount");
+		session.setAttribute("senderPAN", senderPAN);
+		session.setAttribute("recipientPAN", recipientPAN);
+		session.setAttribute("amount", amount);
 		try {
 			outputJson.put("senderPAN", senderPAN);
 			outputJson.put("recipientPAN", recipientPAN);
@@ -87,8 +66,7 @@ public class TransferResetServlet extends HttpServlet {
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request,
-	        HttpServletResponse response) throws ServletException,
-	        IOException {
+			HttpServletResponse response) throws ServletException, IOException {
 	}
 
 }

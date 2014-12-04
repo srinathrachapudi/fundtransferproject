@@ -254,7 +254,7 @@
 				<tr>
 					<td width="50%"><textarea readonly rows="1" cols="80"
 							id="requestOCTHeader"
-							style="resize: none; scroll: true; background-color: black; color: #3bd6c6""></textarea></td>
+							style="resize: none; scroll: true; background-color: black; color: #3bd6c6"></textarea></td>
 					<td width="50%"></td>
 				</tr>
 			</table>

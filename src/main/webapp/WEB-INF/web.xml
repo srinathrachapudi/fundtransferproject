@@ -12,24 +12,24 @@
         based on the recommendations of the Application Developer's Guide.
     </description>
 	<servlet>
-		<servlet-name>OCTresponseServlet</servlet-name>
-		<servlet-class>com.visa.OCTresponseServlet</servlet-class>
+		<servlet-name>OCTResponseServlet</servlet-name>
+		<servlet-class>com.fundtransfer.OCTResponseServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>OCTresponseServlet</servlet-name>
-		<url-pattern>/OCTresponseServlet/*</url-pattern>
+		<servlet-name>OCTResponseServlet</servlet-name>
+		<url-pattern>/OCTResponseServlet/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>OCTrequestServlet</servlet-name>
-		<servlet-class>com.visa.OCTrequestServlet</servlet-class>
+		<servlet-name>OCTRequestServlet</servlet-name>
+		<servlet-class>com.fundtransfer.OCTRequestServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>OCTrequestServlet</servlet-name>
-		<url-pattern>/OCTrequestServlet/*</url-pattern>
+		<servlet-name>OCTRequestServlet</servlet-name>
+		<url-pattern>/OCTRequestServlet/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>AccountVerificationRequestServlet</servlet-name>
-		<servlet-class>com.visa.AccountVerificationRequestServlet</servlet-class>
+		<servlet-class>com.fundtransfer.AccountVerificationRequestServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>AccountVerificationRequestServlet</servlet-name>
@@ -37,23 +37,23 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>AccountVerificationResponseServlet</servlet-name>
-		<servlet-class>com.visa.AccountVerificationResponseServlet</servlet-class>
+		<servlet-class>com.fundtransfer.AccountVerificationResponseServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>AccountVerificationResponseServlet</servlet-name>
 		<url-pattern>/AccountVerificationResponseServlet/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>AccountlookuprequestServlet</servlet-name>
-		<servlet-class>com.visa.AccountlookuprequestServlet</servlet-class>
+		<servlet-name>AccountLookupRequestServlet</servlet-name>
+		<servlet-class>com.fundtransfer.AccountLookupRequestServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>AccountlookuprequestServlet</servlet-name>
-		<url-pattern>/AccountlookuprequestServlet/*</url-pattern>
+		<servlet-name>AccountLookupRequestServlet</servlet-name>
+		<url-pattern>/AccountLookupRequestServlet/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>AdminConsoleReadServlet</servlet-name>
-		<servlet-class>com.visa.AdminConsoleReadServlet</servlet-class>
+		<servlet-class>com.fundtransfer.AdminConsoleReadServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>AdminConsoleReadServlet</servlet-name>
@@ -61,7 +61,7 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>AdminConsoleServlet</servlet-name>
-		<servlet-class>com.visa.AdminConsoleServlet</servlet-class>
+		<servlet-class>com.fundtransfer.AdminConsoleServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>AdminConsoleServlet</servlet-name>
@@ -69,7 +69,7 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>AdminResetServlet</servlet-name>
-		<servlet-class>com.visa.AdminResetServlet</servlet-class>
+		<servlet-class>com.fundtransfer.AdminResetServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>AdminResetServlet</servlet-name>
@@ -77,31 +77,31 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>DefaultTransferServlet</servlet-name>
-		<servlet-class>com.visa.DefaultTransferServlet</servlet-class>
+		<servlet-class>com.fundtransfer.DefaultTransferServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>DefaultTransferServlet</servlet-name>
 		<url-pattern>/DefaultTransferServlet/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>AFTrequestServlet</servlet-name>
-		<servlet-class>com.visa.AFTrequestServlet</servlet-class>
+		<servlet-name>AFTRequestServlet</servlet-name>
+		<servlet-class>com.fundtransfer.AFTRequestServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>AFTrequestServlet</servlet-name>
-		<url-pattern>/AFTrequestServlet/*</url-pattern>
+		<servlet-name>AFTRequestServlet</servlet-name>
+		<url-pattern>/AFTRequestServlet/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>AFTresponseServlet</servlet-name>
-		<servlet-class>com.visa.AFTresponseServlet</servlet-class>
+		<servlet-name>AFTResponseServlet</servlet-name>
+		<servlet-class>com.fundtransfer.AFTResponseServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>AFTresponseServlet</servlet-name>
-		<url-pattern>/AFTresponseServlet/*</url-pattern>
+		<servlet-name>AFTResponseServlet</servlet-name>
+		<url-pattern>/AFTResponseServlet/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>TransferResetServlet</servlet-name>
-		<servlet-class>com.visa.TransferResetServlet</servlet-class>
+		<servlet-class>com.fundtransfer.TransferResetServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>TransferResetServlet</servlet-name>
@@ -109,7 +109,7 @@
 	</servlet-mapping>
 	<filter>
 		<filter-name>BasicAuthFilter</filter-name>
-		<filter-class>com.visa.BasicAuthFilter</filter-class>
+		<filter-class>com.fundtransfer.BasicAuthFilter</filter-class>
 		<init-param>
 			<param-name>my-param</param-name>
 			<param-value>my-param-value</param-value>

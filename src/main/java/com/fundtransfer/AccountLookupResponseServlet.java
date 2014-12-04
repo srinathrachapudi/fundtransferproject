@@ -1,5 +1,5 @@
 
-package com.visa;
+package com.fundtransfer;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,23 +13,24 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
-import com.vdp.Algorithm;
-import com.vdp.util.VdpUtility;
-import com.visa.config.ConfigValues;
+import com.fundtransfer.config.ConfigValues;
+import com.fundtransfer.util.XpayTokenGenerator;
+import com.fundtransfer.util.FundTransferUtility;
 
 /**
  * Servlet implementation class AccountlookupresponseServlet
+ * This class makes the AccountLookup API call sends reponse to client in JSON
+ * pretty printformat
  */
 @WebServlet("/AccountlookupresponseServlet")
-public class AccountlookupresponseServlet extends HttpServlet {
+public class AccountLookupResponseServlet extends HttpServlet {
 	private static final long	serialVersionUID	= 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public AccountlookupresponseServlet() {
+	public AccountLookupResponseServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -39,71 +40,50 @@ public class AccountlookupresponseServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 	        HttpServletResponse response) throws ServletException,
 	        IOException {
-		// TODO Auto-generated method stub
-
 		String token = "";
 		String payload = "";
 		String newpayload = "";
 		String endpoint = "";
 		String res = "";
-
 		// get apiKey
 		String apiKey = null;
-
 		HttpSession session = request.getSession();
-
+		String sharedSecret = null;
 		apiKey = (String) session.getAttribute("apiKey");
-
 		if (apiKey == null) {
 			apiKey = (String) new ConfigValues().getPropValues().get(
 			        "apiKey");
 		}
-
-		// get sharedSecret
-		String sharedSecret = null;
-
-		HttpSession session1 = request.getSession();
-
-		sharedSecret = (String) session1.getAttribute("sharedSecret");
-
+		sharedSecret = (String) session.getAttribute("sharedSecret");
 		if (sharedSecret == null) {
 			sharedSecret = (String) new ConfigValues()
 			        .getPropValues().get("sharedSecret");
 		}
-
 		try {
-
 			payload = (String) new ConfigValues().getPropValues()
 			        .get("payloadACNL");
 			JSONObject jsonObject = new JSONObject(payload);
 			jsonObject.put("PrimaryAccountNumber",
 			        request.getParameter("recipientCardNumber"));
 
-			NetClientPost client = new NetClientPost();
+			RestWebServiceClient client = new RestWebServiceClient();
 			newpayload = jsonObject.toString(); // pay load After user input
-
 			endpoint = (String) new ConfigValues().getPropValues()
 			        .get("urlACNL") + "?apikey=" + apiKey;
-			token = new Algorithm().generateXpaytoken(
-			        newpayload,
-			        (String) new ConfigValues().getPropValues().get(
-			                "pathACNL"), apiKey, sharedSecret);
-
+			token = new XpayTokenGenerator().generateXpaytoken(
+			        newpayload, (String) new ConfigValues()
+			                .getPropValues().get("pathACNL"), apiKey,
+			        sharedSecret);
 			res = client.getResponse(newpayload, endpoint, token);
-
-			if (res != null && res.contains("CardProductTypeCode")) {
-				HttpSession session11 = request.getSession();
-				session11.setAttribute("recipientPAN",
+			if (res != null && res.contains("CardProductTypeCode")) {				
+				session.setAttribute("recipientPAN",
 				        request.getParameter("recipientCardNumber"));
 			}
-
-			if (res.startsWith("{"))		// To check if response is JSON
-
+			if (res.startsWith("{"))	// To check if response is JSON
 			{
-				res = VdpUtility.convertToPrettyJsonstring(res);
-
+				res = FundTransferUtility
+				        .convertToPrettyJsonstring(res);
 			}
-
 			JSONObject outputJson = new JSONObject();
 			PrintWriter out = response.getWriter();
 			outputJson.put("response", res);
@@ -112,16 +92,11 @@ public class AccountlookupresponseServlet extends HttpServlet {
 			outputJson.put("sharedSecret", sharedSecret);
 			response.setContentType("application/json");
 			out.print(outputJson);
-
 		} catch (IOException e) {
 			e.printStackTrace();
-
 		} catch (Exception e) {
-
 			e.printStackTrace();
-
 		}
-
 	}
 
 	/**
@@ -131,7 +106,6 @@ public class AccountlookupresponseServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 	        HttpServletResponse response) throws ServletException,
 	        IOException {
-		// TODO Auto-generated method stub
 	}
 
 }

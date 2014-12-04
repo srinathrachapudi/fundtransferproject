@@ -1,5 +1,5 @@
 
-package com.visa;
+package com.fundtransfer;
 
 import java.io.IOException;
 
@@ -8,27 +8,30 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.vdp.util.VdpUtility;
-import com.visa.config.ConfigValues;
+import com.fundtransfer.config.ConfigValues;
+import com.fundtransfer.util.FundTransferUtility;
 
 /**
- * Servlet implementation class AFTrequestServlet
+ * Servlet implementation class AccountVerifactionRequestServlet
+ * This class generates requestPayload in JSON format for account verification
+ * API call.
+ * The AccountVerification API performs Address Verification Service (AVS) and
+ * Card Verification Value (CVV2) on an account number
  */
-@WebServlet("/AFTrequestServlet")
-public class AFTrequestServlet extends HttpServlet {
+
+@WebServlet("/AccountVerificationRequestServlet")
+public class AccountVerificationRequestServlet extends HttpServlet {
 	private static final long	serialVersionUID	= 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public AFTrequestServlet() {
+	public AccountVerificationRequestServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -38,31 +41,21 @@ public class AFTrequestServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 	        HttpServletResponse response) throws ServletException,
 	        IOException {
-		// TODO Auto-generated method stub
-
 		String payload = (String) new ConfigValues().getPropValues()
-		        .get("payloadAFT");
-		JSONObject jsonObject;
-		String senderPAN = null;
+		        .get("payloadACNV");
 		String jsonRequest = "";
+		JSONObject jsonObject;
+
 		try {
 			jsonObject = new JSONObject(payload);
-			jsonObject.put("Amount", request.getParameter("amount"));
-
-			HttpSession session = request.getSession();
-			senderPAN = (String) session.getAttribute("senderPAN");
-			if (senderPAN != null) {
-				jsonObject.put("SenderPrimaryAccountNumber",
-				        senderPAN);
-			}
-			jsonRequest = VdpUtility
+			jsonObject.put("PrimaryAccountNumber",
+			        request.getParameter("accNo"));
+			jsonRequest = FundTransferUtility
 			        .convertToPrettyJsonstring(jsonObject.toString());
-			response.getWriter().write(jsonRequest);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		response.getWriter().write(jsonRequest);
 	}
 
 	/**
@@ -72,7 +65,6 @@ public class AFTrequestServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 	        HttpServletResponse response) throws ServletException,
 	        IOException {
-		// TODO Auto-generated method stub
 
 	}
 

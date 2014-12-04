@@ -1,5 +1,5 @@
 
-package com.visa;
+package com.fundtransfer;
 
 import java.io.IOException;
 
@@ -12,23 +12,25 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.vdp.util.VdpUtility;
-import com.visa.config.ConfigValues;
+import com.fundtransfer.config.ConfigValues;
+import com.fundtransfer.util.FundTransferUtility;
 
 /**
- * Servlet implementation class AccountVerifactionRequestServlet
+ * Servlet implementation class AccountlookuprequestServlet
+ * This class generates requestPayload in JSON format for The AccountLookup API
+ * call.
+ * The AccountLookup API is used to verify sender account details.
+ * The AccountLookup API returns account data based on a users account number
  */
-
-@WebServlet("/AccountVerificationRequestServlet")
-public class AccountVerificationRequestServlet extends HttpServlet {
+@WebServlet("/AccountlookuprequestServlet")
+public class AccountLookupRequestServlet extends HttpServlet {
 	private static final long	serialVersionUID	= 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public AccountVerificationRequestServlet() {
+	public AccountLookupRequestServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -38,28 +40,24 @@ public class AccountVerificationRequestServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 	        HttpServletResponse response) throws ServletException,
 	        IOException {
-		// TODO Auto-generated method stub
-
+		String recipientCardNumber = request
+		        .getParameter("recipientCardNumber");
 		String payload = (String) new ConfigValues().getPropValues()
-		        .get("payloadACNV");
-		String newpayload = "";
+		        .get("payloadACNL");
+		String token = "";
 		String jsonRequest = "";
+		JSONObject jsonObject;
 
 		try {
-
-			JSONObject jsonObject = new JSONObject(payload);
+			jsonObject = new JSONObject(payload);
 			jsonObject.put("PrimaryAccountNumber",
-			        request.getParameter("accNo"));
-			jsonRequest = VdpUtility
+			        request.getParameter("recipientCardNumber"));
+			jsonRequest = FundTransferUtility
 			        .convertToPrettyJsonstring(jsonObject.toString());
-
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		response.getWriter().write(jsonRequest);
-
 	}
 
 	/**
@@ -71,5 +69,4 @@ public class AccountVerificationRequestServlet extends HttpServlet {
 	        IOException {
 
 	}
-
 }

@@ -137,10 +137,10 @@ function populateForm(){
 					// on page submit 
 					submitHandler : function() {
 						var recipientCardNumber =$('#recipientCardNumber').val(); 
-						$.get('AccountlookuprequestServlet',{recipientCardNumber:recipientCardNumber},function(responseText) {
+						$.get('AccountLookupRequestServlet',{recipientCardNumber:recipientCardNumber},function(responseText) {
 							$('#request').html(responseText);
 						});	   	 
-						$.get('AccountlookupresponseServlet',{recipientCardNumber:recipientCardNumber},function(responseText) {
+						$.get('AccountLookupRequestServlet',{recipientCardNumber:recipientCardNumber},function(responseText) {
 							$('#response').html(responseText.response);  
 							$('#requestACTLHeader').html(responseText.token);
 							$('#requestACTLHeader').html(responseText.token); 
@@ -182,12 +182,12 @@ function populateForm(){
 					// on page submit 
 					submitHandler : function() {
 						var amount = $('#amount').val();
-						$.get('AFTrequestServlet', {
+						$.get('AFTRequestServlet', {
 							amount : amount
 						}, function(responseText) {
 							$('#requestAft').html(responseText);  
 						});
-						$.get('AFTresponseServlet', {
+						$.get('AFTResponseServlet', {
 							amount : amount
 						}, function(responseText) {
 							$('#requestAftHeader').html(responseText.token); 
@@ -239,11 +239,11 @@ function populateForm(){
 
 		function doOCT(){
 			var amount = $('#amount').val();
-			$.get('OCTrequestServlet', {amount : amount}, function(responseText) {
+			$.get('OCTRequestServlet', {amount : amount}, function(responseText) {
 				$('#requestOCT').html(responseText); 
 			});
 
-			$.get('OCTresponseServlet', {
+			$.get('OCTResponseServlet', {
 				amount : amount
 			}, function(responseText) {
 				$('#responseOCT').html(responseText.response);  

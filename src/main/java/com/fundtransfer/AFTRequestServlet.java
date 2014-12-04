@@ -1,5 +1,5 @@
 
-package com.visa;
+package com.fundtransfer;
 
 import java.io.IOException;
 
@@ -8,26 +8,30 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.vdp.util.VdpUtility;
-import com.visa.config.ConfigValues;
+import com.fundtransfer.config.ConfigValues;
+import com.fundtransfer.util.FundTransferUtility;
 
 /**
- * Servlet implementation class AccountlookuprequestServlet
+ * Servlet implementation class AFTrequestServlet
+ * This class generates requestPayload in JSON format for
+ * AccountFundingTransactions API call.
+ * The AccountFundingTransaction method pulls funds from a sender's account, in
+ * preparation for pushing funds to a recipient's account.
  */
-@WebServlet("/AccountlookuprequestServlet")
-public class AccountlookuprequestServlet extends HttpServlet {
+@WebServlet("/AFTrequestServlet")
+public class AFTRequestServlet extends HttpServlet {
 	private static final long	serialVersionUID	= 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public AccountlookuprequestServlet() {
+	public AFTRequestServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -37,30 +41,28 @@ public class AccountlookuprequestServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 	        HttpServletResponse response) throws ServletException,
 	        IOException {
-		// TODO Auto-generated method stub
-
-		String recipientCardNumber = request
-		        .getParameter("recipientCardNumber");
 		String payload = (String) new ConfigValues().getPropValues()
-		        .get("payloadACNL");
-		String token = "";
-		String jsonRequest = "";
+		        .get("payloadAFT");
 		JSONObject jsonObject;
+		String senderPAN = null;
+		String jsonRequest = "";
+		HttpSession session;
 
 		try {
 			jsonObject = new JSONObject(payload);
-			jsonObject.put("PrimaryAccountNumber",
-			        request.getParameter("recipientCardNumber"));
-			jsonRequest = VdpUtility
+			jsonObject.put("Amount", request.getParameter("amount"));
+			session = request.getSession();
+			senderPAN = (String) session.getAttribute("senderPAN");
+			if (senderPAN != null) {
+				jsonObject.put("SenderPrimaryAccountNumber",
+				        senderPAN);
+			}
+			jsonRequest = FundTransferUtility
 			        .convertToPrettyJsonstring(jsonObject.toString());
-
-		}
-
-		catch (JSONException e) {
-			// TODO Auto-generated catch block
+			response.getWriter().write(jsonRequest);
+		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		response.getWriter().write(jsonRequest);
 
 	}
 
@@ -71,7 +73,6 @@ public class AccountlookuprequestServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 	        HttpServletResponse response) throws ServletException,
 	        IOException {
-
 	}
 
 }

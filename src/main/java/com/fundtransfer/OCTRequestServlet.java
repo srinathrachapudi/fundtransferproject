@@ -1,5 +1,5 @@
 
-package com.visa;
+package com.fundtransfer;
 
 import java.io.IOException;
 
@@ -12,34 +12,36 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.vdp.util.VdpUtility;
-import com.visa.config.ConfigValues;
+import com.fundtransfer.config.ConfigValues;
+import com.fundtransfer.util.FundTransferUtility;
 
 /**
  * Servlet implementation class ActionServlet
+ * This class generates requestPayload in JSON format for
+ * AccountFundingTransactions API call.
+ * The OriginalCreditTransaction resource credits (pushes) funds to a
+ * recipient's Visa account
  */
 
-public class OCTrequestServlet extends HttpServlet {
+public class OCTRequestServlet extends HttpServlet {
 	private static final long	serialVersionUID	= 1L;
 
-	public OCTrequestServlet() {
-		// TODO Auto-generated constructor stub
+	public OCTRequestServlet() {
 	}
 
 	protected void doGet(HttpServletRequest request,
 	        HttpServletResponse response) throws ServletException,
 	        IOException {
-
 		String payload = (String) new ConfigValues().getPropValues()
 		        .get("payloadOCT");
 		String senderPAN = null;
 		String recipientPAN = null;
 		JSONObject jsonObject;
 		String jsonRequest = "";
+
 		try {
 			jsonObject = new JSONObject(payload);
 			jsonObject.put("Amount", request.getParameter("amount"));
-
 			HttpSession session = request.getSession();
 			senderPAN = (String) session.getAttribute("senderPAN");
 			recipientPAN = (String) session
@@ -51,22 +53,17 @@ public class OCTrequestServlet extends HttpServlet {
 				jsonObject.put("RecipientCardPrimaryAccountNumber",
 				        recipientPAN);
 			}
-
-			jsonRequest = VdpUtility
+			jsonRequest = FundTransferUtility
 			        .convertToPrettyJsonstring(jsonObject.toString());
 			response.getWriter().write(jsonRequest);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	protected void doPost(HttpServletRequest request,
 	        HttpServletResponse response) throws ServletException,
 	        IOException {
-		// TODO Auto-generated method stub
-
 	}
 
 }

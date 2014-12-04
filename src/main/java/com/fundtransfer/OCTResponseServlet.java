@@ -1,5 +1,5 @@
 
-package com.visa;
+package com.fundtransfer;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,25 +12,25 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
-import com.vdp.Algorithm;
-import com.vdp.util.VdpUtility;
-import com.visa.config.ConfigValues;
+import com.fundtransfer.config.ConfigValues;
+import com.fundtransfer.util.XpayTokenGenerator;
+import com.fundtransfer.util.FundTransferUtility;
 
 /**
  * Servlet implementation class ActionServlet
+ * This class makes the AccountFundingTransaction API call sends reponse to
+ * client in JSON pretty print format
  */
 
-public class OCTresponseServlet extends HttpServlet {
+public class OCTResponseServlet extends HttpServlet {
 	private static final long	serialVersionUID	= 1L;
 
-	public OCTresponseServlet() {
-		// TODO Auto-generated constructor stub
+	public OCTResponseServlet() {
 	}
 
 	protected void doGet(HttpServletRequest request,
 	        HttpServletResponse response) throws ServletException,
 	        IOException {
-
 		String payload = "";
 		String senderPAN = null;
 		String recipientPAN = null;
@@ -38,42 +38,29 @@ public class OCTresponseServlet extends HttpServlet {
 		String endpoint = "";
 		String token = "";
 		String res = "";
-
 		// get apiKey
 		String apiKey = null;
-
 		HttpSession session = request.getSession();
-
+		// get sharedSecret
+		String sharedSecret = null;
 		apiKey = (String) session.getAttribute("apiKey");
 
 		if (apiKey == null) {
 			apiKey = (String) new ConfigValues().getPropValues().get(
 			        "apiKey");
 		}
-
-		// get sharedSecret
-		String sharedSecret = null;
-
-		HttpSession session1 = request.getSession();
-
-		sharedSecret = (String) session1.getAttribute("sharedSecret");
-
+		sharedSecret = (String) session.getAttribute("sharedSecret");
 		if (sharedSecret == null) {
 			sharedSecret = (String) new ConfigValues()
 			        .getPropValues().get("sharedSecret");
 		}
-
 		try {
-
 			payload = (String) new ConfigValues().getPropValues()
 			        .get("payloadOCT");
-
 			JSONObject jsonObject = new JSONObject(payload);
 			jsonObject.put("Amount", request.getParameter("amount"));
-
-			HttpSession session11 = request.getSession();
-			senderPAN = (String) session11.getAttribute("senderPAN");
-			recipientPAN = (String) session11
+			senderPAN = (String) session.getAttribute("senderPAN");
+			recipientPAN = (String) session
 			        .getAttribute("recipientPAN");
 			if (senderPAN != null) {
 				jsonObject.put("SenderAccountNumber", senderPAN);
@@ -82,42 +69,32 @@ public class OCTresponseServlet extends HttpServlet {
 				jsonObject.put("RecipientCardPrimaryAccountNumber",
 				        recipientPAN);
 			}
-
-			NetClientPost client = new NetClientPost();
+			RestWebServiceClient client = new RestWebServiceClient();
 			newpayload = jsonObject.toString();
 			endpoint = (String) new ConfigValues().getPropValues()
 			        .get("urlOCT") + "?apikey=" + apiKey;
-			token = new Algorithm().generateXpaytoken(
-			        newpayload,
-			        (String) new ConfigValues().getPropValues().get(
-			                "pathOCT"), apiKey, sharedSecret);
-
+			token = new XpayTokenGenerator().generateXpaytoken(
+			        newpayload, (String) new ConfigValues()
+			                .getPropValues().get("pathOCT"), apiKey,
+			        sharedSecret);
 			res = client.getResponse(newpayload, endpoint, token);
-			if (res.startsWith("{"))
-
-			{
-				res = VdpUtility.convertToPrettyJsonstring(res);
-
+			if (res.startsWith("{")) {
+				res = FundTransferUtility.convertToPrettyJsonstring(res);
 			}
-
 			JSONObject outputJson = new JSONObject();
 			PrintWriter out = response.getWriter();
 			outputJson.put("response", res);
 			outputJson.put("token", token);
 			response.setContentType("application/json");
 			out.print(outputJson);
-
 		} catch (Exception e) {
 			e.printStackTrace();
-
 		}
 	}
 
 	protected void doPost(HttpServletRequest request,
 	        HttpServletResponse response) throws ServletException,
 	        IOException {
-		// TODO Auto-generated method stub
-
 	}
 
 }

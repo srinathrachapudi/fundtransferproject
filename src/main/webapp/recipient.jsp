@@ -110,7 +110,7 @@
 				<td align="left"><input type="text" size="19"
 					name="recipientCardNumber" id="recipientCardNumber"
 					value="<%=session.getAttribute("recipientPAN") == null ? ""
-			        : session.getAttribute("recipientPAN")%>" />
+					: session.getAttribute("recipientPAN")%>" />
 					<div class="myErrors"></div></td>
 			</tr>
 			<tr>

@@ -1,5 +1,5 @@
 
-package com.visa;
+package com.fundtransfer;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,21 +14,22 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.visa.config.ConfigValues;
+import com.fundtransfer.config.ConfigValues;
 
 /**
- * Servlet implementation class AdminResetServlet
+ * Servlet implementation class AdminConsoleServlet
+ * This class used to read the Credentials(X-APIKey and SharedSecret) from Admin
+ * Console page
  */
-@WebServlet("/AdminResetServlet")
-public class AdminResetServlet extends HttpServlet {
+@WebServlet("/AdminConsoleReadServlet")
+public class AdminConsoleReadServlet extends HttpServlet {
 	private static final long	serialVersionUID	= 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public AdminResetServlet() {
+	public AdminConsoleReadServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -38,45 +39,27 @@ public class AdminResetServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 	        HttpServletResponse response) throws ServletException,
 	        IOException {
-		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
 		String apiKey = (String) session.getAttribute("apiKey");
 		String sharedSecret = (String) session
 		        .getAttribute("sharedSecret");
+		JSONObject outputJson = new JSONObject();
+		PrintWriter out = response.getWriter();
 
 		if (apiKey == null || sharedSecret == null) {
 			apiKey = (String) new ConfigValues().getPropValues().get(
 			        "apiKey");
 			sharedSecret = (String) new ConfigValues()
 			        .getPropValues().get("sharedSecret");
-
-			session.setAttribute("apiKey", apiKey);
-			session.setAttribute("sharedSecret", sharedSecret);
 		}
-
-		if (apiKey != null || sharedSecret != null) {
-
-			apiKey = (String) new ConfigValues().getPropValues().get(
-			        "apiKey");
-			sharedSecret = (String) new ConfigValues()
-			        .getPropValues().get("sharedSecret");
-
-			session.setAttribute("apiKey", apiKey);
-			session.setAttribute("sharedSecret", sharedSecret);
-
-		}
-		JSONObject outputJson = new JSONObject();
-		PrintWriter out = response.getWriter();
 		try {
 			outputJson.put("apiKey", apiKey);
 			outputJson.put("sharedSecret", sharedSecret);
 			response.setContentType("application/json");
 			out.print(outputJson);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -86,7 +69,6 @@ public class AdminResetServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 	        HttpServletResponse response) throws ServletException,
 	        IOException {
-		// TODO Auto-generated method stub
 	}
 
 }

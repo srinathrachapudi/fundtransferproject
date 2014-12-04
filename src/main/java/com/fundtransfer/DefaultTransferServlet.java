@@ -1,5 +1,5 @@
 
-package com.visa;
+package com.fundtransfer;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,21 +14,22 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.visa.config.ConfigValues;
+import com.fundtransfer.config.ConfigValues;
 
 /**
- * Servlet implementation class AdminConsoleServlet
+ * Servlet implementation class DefaultTransferServlet
+ * This class used to provide default values to transfer page with sender,
+ * receiver account numbers and amount.
  */
-@WebServlet("/AdminConsoleReadServlet")
-public class AdminConsoleReadServlet extends HttpServlet {
+@WebServlet("/DefaultTransferServlet")
+public class DefaultTransferServlet extends HttpServlet {
 	private static final long	serialVersionUID	= 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public AdminConsoleReadServlet() {
+	public DefaultTransferServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -38,37 +39,34 @@ public class AdminConsoleReadServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 	        HttpServletResponse response) throws ServletException,
 	        IOException {
-		// TODO Auto-generated method stub
-
 		HttpSession session = request.getSession();
-		String apiKey = (String) session.getAttribute("apiKey");
-		String sharedSecret = (String) session
-		        .getAttribute("sharedSecret");
-
-		if (apiKey == null || sharedSecret == null) {
-
-			apiKey = (String) new ConfigValues().getPropValues().get(
-			        "apiKey");
-			sharedSecret = (String) new ConfigValues()
-			        .getPropValues().get("sharedSecret");
-
-		}
-
-		// System.out.println("apiKey: "+ apiKey + "  sharedSecret: "+
-		// sharedSecret );
-
+		String senderPAN = (String) session.getAttribute("senderPAN");
+		String recipientPAN = (String) session
+		        .getAttribute("recipientPAN");
+		String amount = (String) session.getAttribute("amount");
 		JSONObject outputJson = new JSONObject();
 		PrintWriter out = response.getWriter();
+
+		if (senderPAN == null || recipientPAN == null) {
+			senderPAN = (String) new ConfigValues().getPropValues()
+			        .get("senderPAN");
+			recipientPAN = (String) new ConfigValues()
+			        .getPropValues().get("recipientPAN");
+			amount = (String) new ConfigValues().getPropValues().get(
+			        "amount");
+			session.setAttribute("senderPAN", senderPAN);
+			session.setAttribute("recipientPAN", recipientPAN);
+			session.setAttribute("amount", amount);
+		}
 		try {
-			outputJson.put("apiKey", apiKey);
-			outputJson.put("sharedSecret", sharedSecret);
+			outputJson.put("senderPAN", senderPAN);
+			outputJson.put("recipientPAN", recipientPAN);
+			outputJson.put("amount", amount);
 			response.setContentType("application/json");
 			out.print(outputJson);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -78,7 +76,6 @@ public class AdminConsoleReadServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 	        HttpServletResponse response) throws ServletException,
 	        IOException {
-		// TODO Auto-generated method stub
 	}
 
 }

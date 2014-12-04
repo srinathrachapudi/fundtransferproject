@@ -1,7 +1,8 @@
 
-package com.visa;
+package com.fundtransfer;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -11,10 +12,21 @@ import java.security.SignatureException;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class NetClientPost {
+/*
+ * This class used to make API calls and get response from servlet
+ */
+
+public class RestWebServiceClient {
 
 	public String getResponse(String payload, String endpoint,
 	        String xpaytoken) throws SignatureException, IOException {
+		HttpsURLConnection conn = null;
+		OutputStream os;
+		BufferedReader br = null;
+		InputStream is;
+		String output;
+		String op = "";
+		URL url = new URL(endpoint);
 
 		System.setProperty("javax.net.ssl.trustStore", getClass()
 		        .getClassLoader().getResource("sandbox.jks")
@@ -33,44 +45,25 @@ public class NetClientPost {
 		 * ConfigValues().getPropValues().get("proxypassword"));
 		 */
 
-		HttpsURLConnection conn = null;
-
-		URL url = new URL(endpoint);
-
 		conn = (HttpsURLConnection) url.openConnection();
 		conn.setDoOutput(true);
 		conn.setRequestMethod("POST");
 		conn.setRequestProperty("Content-Type", "application/json");
 		conn.setRequestProperty("Accept", "application/json");
 		conn.setRequestProperty("x-pay-token", xpaytoken);
-
-		OutputStream os = conn.getOutputStream();
+		os = conn.getOutputStream();
 		os.write(payload.getBytes());
 		os.flush();
-		BufferedReader br = null;
-		InputStream is;
 		if (conn.getResponseCode() >= 400) {
-			is = conn.getErrorStream();
-
-			System.out.println("get response code"
-			        + conn.getResponseCode());
+			is = conn.getErrorStream();			
 		} else {
 			is = conn.getInputStream();
 		}
-
 		br = new BufferedReader(new InputStreamReader(is));
-
-		String output;
-		String op = "";
-
 		while ((output = br.readLine()) != null) {
 			op += output;
-
 		}
-
 		conn.disconnect();
 		return op;
-
 	}
-
 }

@@ -1,4 +1,3 @@
-
 package com.fundtransfer;
 
 import java.io.IOException;
@@ -18,13 +17,13 @@ import com.fundtransfer.util.XpayTokenGenerator;
 import com.fundtransfer.util.FundTransferUtility;
 
 /**
- * Servlet implementation class AccountVerificationResponseServlet
- * This class makes the AccountVerification API call sends reponse to client in
- * JSON pretty print format
+ * Servlet implementation class AccountVerificationResponseServlet This class
+ * makes the AccountVerification API call sends reponse to client in JSON pretty
+ * print format
  */
 @WebServlet("/AccountVerificationResponseServlet")
 public class AccountVerificationResponseServlet extends HttpServlet {
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -38,10 +37,9 @@ public class AccountVerificationResponseServlet extends HttpServlet {
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request,
-	        HttpServletResponse response) throws ServletException,
-	        IOException {
-		String payload = (String) new ConfigValues().getPropValues()
-		        .get("payloadACNV");
+			HttpServletResponse response) throws ServletException, IOException {
+		String payload = (String) new ConfigValues().getPropValues().get(
+				"payloadACNV");
 		String newpayload = "";
 		String endpoint = "";
 		String res = "";
@@ -51,36 +49,34 @@ public class AccountVerificationResponseServlet extends HttpServlet {
 		String apiKey = null;
 		HttpSession session = request.getSession();
 		// get sharedSecret
-		String sharedSecret = null;	
-		System.out.println(apiKey);
+		String sharedSecret = null;
 		apiKey = (String) session.getAttribute("apiKey");
-		System.out.println(apiKey);
+
 		if (apiKey == null) {
-			apiKey = (String) new ConfigValues().getPropValues().get(
-			        "apiKey");
+			apiKey = (String) new ConfigValues().getPropValues().get("apiKey");
 		}
 		sharedSecret = (String) session.getAttribute("sharedSecret");
 		if (sharedSecret == null) {
-			sharedSecret = (String) new ConfigValues()
-			        .getPropValues().get("sharedSecret");
-		}		
+			sharedSecret = (String) new ConfigValues().getPropValues().get(
+					"sharedSecret");
+		}
 		try {
 			JSONObject jsonObject = new JSONObject(payload);
 			jsonObject.put("PrimaryAccountNumber",
-			        request.getParameter("accNo"));
+					request.getParameter("accNo"));
 			RestWebServiceClient client = new RestWebServiceClient();
 			newpayload = jsonObject.toString();
-			endpoint = (String) new ConfigValues().getPropValues()
-			        .get("urlACNV") + "?apikey=" + apiKey;
-			pathACNV = (String) new ConfigValues().getPropValues()
-			        .get("pathACNV");
-			token = new XpayTokenGenerator().generateXpaytoken(
-			        newpayload, pathACNV, apiKey, sharedSecret);
+			endpoint = (String) new ConfigValues().getPropValues().get(
+					"urlACNV")
+					+ "?apikey=" + apiKey;
+			pathACNV = (String) new ConfigValues().getPropValues().get(
+					"pathACNV");
+			token = new XpayTokenGenerator().generateXpaytoken(newpayload,
+					pathACNV, apiKey, sharedSecret);
 			res = client.getResponse(newpayload, endpoint, token);
 
-			if (res != null && res.contains("TransactionIdentifier")) {				
-				session.setAttribute("senderPAN",
-				        request.getParameter("accNo"));
+			if (res != null && res.contains("TransactionIdentifier")) {
+				session.setAttribute("senderPAN", request.getParameter("accNo"));
 			}
 			if (res.startsWith("{")) {
 				res = FundTransferUtility.convertToPrettyJsonstring(res);
@@ -105,7 +101,6 @@ public class AccountVerificationResponseServlet extends HttpServlet {
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request,
-	        HttpServletResponse response) throws ServletException,
-	        IOException {
+			HttpServletResponse response) throws ServletException, IOException {
 	}
 }
